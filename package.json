@@ -6,7 +6,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack --mode development",
-    "webpack:server": "spago build -w & webpack-dev-server --progress --hot"
+    "spago:build": "spago build",
+    "spago:test": "spago test --main Test.Main",
+    "webpack:serve": "webpack serve --mode=development"
   },
   "repository": {
     "type": "git",
