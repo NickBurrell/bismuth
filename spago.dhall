@@ -10,8 +10,8 @@ When creating a new Spago project, you can use
 `spago init --no-comments` or `spago init -C`
 to generate this file without the comments in this block.
 -}
-{ name = "my-project"
+{ name = "bismuth-engine"
 , dependencies = [ "console", "effect", "prelude" ]
-, packages = ./packages.dhall
-, sources = [ "src/**/*.purs", "test/**/*.purs" ]
+, packages = ./bismuth-engine/packages.dhall
+, sources = [ "bismuth-engine/src/**/*.purs", "bismuth-engine/test/**/*.purs" ]
 }
