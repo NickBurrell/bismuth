@@ -1,0 +1,59 @@
+name: Build and GH-Page Deploy
+
+on:
+  push:
+    branches: 
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: purescript-contrib/setup-purescript@main
+        with:
+          purescript: "0.15.0"
+          purs-tidy: "0.8.0"
+          spago: "0.20.9"
+
+      - name: Cache PureScript dependencies
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-spago-${{ hashFiles('**/*.dhall') }}
+          path: |
+            .spago
+            output
+
+      - name: Set up Node toolchain
+        uses: actions/setup-node@v2
+        with:
+          node-version: "15"
+
+      - name: Cache NPM dependencies
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-node-modules
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
+
+      - name: Install NPM dependencies
+        run: npm install
+
+      - name: Build the project
+        run: npm run spago:bundle && npm run webpack:build
+
+      - name: Run tests
+        run: npm run spago:test
+
+      - name: Deploy to GH Page
+        uses: JamesIves/github-pages-deploy-action@4.1.1
+        with:
+          branch: gh-pages
+          folder: dist
