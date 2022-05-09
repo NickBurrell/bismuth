@@ -8,6 +8,7 @@
     "dev": "webpack --mode development",
     "spago:build": "spago build",
     "spago:test": "spago test --main Test.Main",
+    "prewebpack:serve": "spago build && spago test",
     "webpack:serve": "webpack serve --mode=development"
   },
   "repository": {
