@@ -7,6 +7,26 @@ module.exports = {
     entry: {
         app: './src/index.tsx'
     },
+    plugins: [
+        new CopyPlugin({
+            patterns: [
+                {
+                    from: 'static/*',
+                    to: '..'
+                },
+            ]
+        }),
+        new HtmlWebpackPlugin({
+            template: './static/index.html',
+        }),
+    ],
+    resolve: {
+        extensions: ['.tsx', '.ts', '.js']
+    },
+    output: {
+        filename: "bismuth.js",
+        path: path.resolve(__dirname, 'dist'),
+    },
     module: {
         rules: [
             {
@@ -24,25 +44,5 @@ module.exports = {
                 use: 'babel-loader',
             },
         ]
-    },
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './dist/index.html',
-        }),
-        new CopyPlugin({
-            patterns: [
-                {
-                    from: './static/index.html',
-                    to: `$(__dirname)/dist/index.html`,
-                },
-            ]
-        }),
-    ],
-    resolve: {
-        extensions: ['.tsx', '.ts', '.js']
-    },
-    output: {
-        filename: "bismuth.js",
-        path: path.resolve(__dirname, 'dist'),
     },
 };
