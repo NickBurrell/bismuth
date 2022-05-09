@@ -47,7 +47,7 @@ jobs:
         run: npm install
 
       - name: Build the project
-        run: npm run spago:bundle && npm run webpack:build
+        run: npm run webpack:build
 
       - name: Run tests
         run: npm run spago:test
